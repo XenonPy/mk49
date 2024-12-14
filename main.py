@@ -1,13 +1,18 @@
 import cv2
 import pytesseract
+import selenium
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 
+options = Options()
+options.headless = True
+
+driver = webdriver.Firefox(options=options)
+driver.click()
 image_path = "./tests/test_OCR.png"
 image = cv2.imread(image_path)
 
-# Get image dimensions
 height, width = image.shape[:2]
-
-# Crop to bottom half, middle section
 cropped_image = image[height//2:height, width//3:2*width//3]
 
 gray = cv2.cvtColor(cropped_image, cv2.COLOR_BGR2GRAY)
@@ -19,7 +24,6 @@ blurred = cv2.GaussianBlur(thresh, (5, 5), 0)
 pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
 text = pytesseract.image_to_string(blurred, config='--psm 6')
 
-# Replace @ with 0
 text = text.replace('@', '0')
 
 print("Extracted Text:")
@@ -48,4 +52,3 @@ data = {
 }
 
 print(data)
-    
