@@ -4,11 +4,14 @@ import selenium
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 
+pytesseract.pytesseract.tesseract_cmd = '/usr/local/Cellar/tesseract/5.5.0/bin/tesseract'
+
 options = Options()
-options.headless = True
+options.headless = False
 
 driver = webdriver.Firefox(options=options)
-driver.click()
+driver.get("https://mk48.io")
+
 image_path = "./tests/test_OCR.png"
 image = cv2.imread(image_path)
 
